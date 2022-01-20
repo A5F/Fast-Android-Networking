@@ -18,7 +18,6 @@
 package com.networking;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,12 +29,8 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.AnalyticsListener;
-import com.androidnetworking.interfaces.BitmapRequestListener;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.androidnetworking.internal.ANImageLoader;
-import com.androidnetworking.widget.ANImageView;
-import com.networking.provider.Images;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -43,21 +38,11 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String URL_IMAGE = "http://i.imgur.com/2M7Hasn.png";
-    private static final String URL_IMAGE_LOADER = "http://i.imgur.com/52md06W.jpg";
-
-    private ImageView imageView;
-    private ANImageView ANImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        imageView = (ImageView) findViewById(R.id.imageView);
-        ANImageView = (ANImageView) findViewById(R.id.greatImageView);
-        ANImageView.setDefaultImageResId(R.drawable.ic_toys_black_24dp);
-        ANImageView.setErrorImageResId(R.drawable.ic_error_outline_black_24dp);
-        ANImageView.setImageUrl(Images.imageThumbUrls[0]);
         makeJSONArrayRequest();
         makeJSONObjectRequest();
     }
@@ -154,67 +139,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "isRequestRunning after cancel : " + AndroidNetworking.isRequestRunning(this));
     }
 
-    public void loadImageDirect(View view) {
-        AndroidNetworking.get(URL_IMAGE)
-                .setTag("imageRequestTag")
-                .setPriority(Priority.MEDIUM)
-                .setImageScaleType(null)
-                .setBitmapMaxHeight(0)
-                .setBitmapMaxWidth(0)
-                .setBitmapConfig(Bitmap.Config.ARGB_8888)
-                .build()
-                .setAnalyticsListener(new AnalyticsListener() {
-                    @Override
-                    public void onReceived(long timeTakenInMillis, long bytesSent, long bytesReceived, boolean isFromCache) {
-                        Log.d(TAG, " timeTakenInMillis : " + timeTakenInMillis);
-                        Log.d(TAG, " bytesSent : " + bytesSent);
-                        Log.d(TAG, " bytesReceived : " + bytesReceived);
-                        Log.d(TAG, " isFromCache : " + isFromCache);
-                    }
-                })
-                .getAsBitmap(new BitmapRequestListener() {
-                    @Override
-                    public void onResponse(Bitmap response) {
-                        Log.d(TAG, "onResponse Bitmap");
-                        imageView.setImageBitmap(response);
-                    }
-
-                    @Override
-                    public void onError(ANError error) {
-                        if (error.getErrorCode() != 0) {
-                            // received ANError from server
-                            // error.getErrorCode() - the ANError code from server
-                            // error.getErrorBody() - the ANError body from server
-                            // error.getErrorDetail() - just a ANError detail
-                            Log.d(TAG, "onError errorCode : " + error.getErrorCode());
-                            Log.d(TAG, "onError errorBody : " + error.getErrorBody());
-                            Log.d(TAG, "onError errorDetail : " + error.getErrorDetail());
-                        } else {
-                            // error.getErrorDetail() : connectionError, parseError, requestCancelledError
-                            Log.d(TAG, "onError errorDetail : " + error.getErrorDetail());
-                        }
-                    }
-                });
-    }
-
-    public void loadImageFromImageLoader(View view) {
-        ANImageLoader.getInstance().get(URL_IMAGE_LOADER, ANImageLoader.getImageListener(imageView,
-                R.drawable.ic_toys_black_24dp, R.drawable.ic_error_outline_black_24dp));
-    }
-
-    public void startGridActivity(View view) {
-        startActivity(new Intent(MainActivity.this, ImageGridActivity.class));
-    }
-
     public void startApiTestActivity(View view) {
         startActivity(new Intent(MainActivity.this, ApiTestActivity.class));
     }
 
     public void startOkHttpResponseTestActivity(View view) {
         startActivity(new Intent(MainActivity.this, OkHttpResponseTestActivity.class));
-    }
-
-    public void startWebSocketActivity(View view) {
-        startActivity(new Intent(MainActivity.this, WebSocketActivity.class));
     }
 }
