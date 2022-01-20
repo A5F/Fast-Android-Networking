@@ -20,9 +20,10 @@ package com.networking;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.ANRequest;
@@ -52,6 +53,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
+
 
 /**
  * Created by amitshekhar on 30/03/16.

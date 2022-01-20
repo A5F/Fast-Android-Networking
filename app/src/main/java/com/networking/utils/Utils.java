@@ -19,8 +19,9 @@ package com.networking.utils;
 
 import android.content.Context;
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
+
+import androidx.core.content.ContextCompat;
 
 import com.androidnetworking.error.ANError;
 

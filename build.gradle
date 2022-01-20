@@ -19,13 +19,13 @@
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.android.tools.build:gradle:7.0.4'
+//        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+//        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -33,7 +33,7 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
 }
@@ -44,20 +44,13 @@ task clean(type: Delete) {
 
 ext {
     // App tools version
-    compileSdkVersion = 29
-    minSdkVersion = 14
-    targetSdkVersion = 29
-    buildToolsVersion = "29.0.3"
+    compileSdkVersion = 31
+    minSdkVersion = 21
+    targetSdkVersion = 31
 
     // App dependencies versions
-    okHttp3Version = "4.7.2"
-    gsonVersion = "2.8.6"
-    jacksonVersion = "2.8.2"
-    rxJavaVersion = "1.3.8"
-    rxJavaAndroidVersion = "1.2.1"
-    rxJava2Version = "2.2.8"
-    rxJava2AndroidVersion = "2.1.1"
-    jUnitVersion = "4.12"
+    okHttp3Version = "4.9.3"
+    gsonVersion = "2.8.9"
     mockWebServerVersion = "3.10.0"
-    supportAppCompatVersion = "27.1.1"
+    appCompatVersion = "1.4.1"
 }

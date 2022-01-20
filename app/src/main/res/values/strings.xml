@@ -16,5 +16,5 @@
   -->
 
 <resources>
-    <string name="app_name">AndroidNetworking</string>
+    <string name="app_name">AndroidNetworkingLite</string>
 </resources>

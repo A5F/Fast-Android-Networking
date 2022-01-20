@@ -21,16 +21,16 @@ apply plugin: "com.jfrog.bintray"
 def siteUrl = 'https://github.com/amitshekhariitbhu/Fast-Android-Networking'
 def gitUrl = 'https://github.com/amitshekhariitbhu/Fast-Android-Networking.git'
 
-group = "com.amitshekhar.android"
-version = '1.0.2'
+group = "it.a5f"
+version = '2.0.0'
 
 install {
     repositories.mavenInstaller {
         pom.project {
             packaging 'aar'
 
-            name 'Fast Android Networking'
-            description 'Fast Android Networking is a powerful library for doing any type of networking in Android applications'
+            name 'Fast Android Networking Lite'
+            description 'Fast Android Networking  Lite is a powerful library for doing any type of networking in Android applications inspirited by Fast Android Networking Library'
 
             url siteUrl
 
@@ -91,7 +91,7 @@ if (project.rootProject.file("local.properties").exists()) {
 
         pkg {
             repo = "maven"
-            name = "android-networking"
+            name = "android-networking-lite"
             websiteUrl = siteUrl
             vcsUrl = gitUrl
             licenses = ["Apache-2.0"]
