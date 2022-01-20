@@ -28,7 +28,6 @@ import com.androidnetworking.core.Core;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor.Level;
 import com.androidnetworking.interfaces.ConnectionQualityChangeListener;
 import com.androidnetworking.interfaces.Parser;
-import com.androidnetworking.internal.ANImageLoader;
 import com.androidnetworking.internal.ANRequestQueue;
 import com.androidnetworking.internal.InternalNetworking;
 import com.androidnetworking.utils.ParseUtil;
@@ -62,7 +61,6 @@ public class AndroidNetworking {
     public static void initialize(Context context) {
         InternalNetworking.setClientWithCache(context.getApplicationContext());
         ANRequestQueue.initialize();
-        ANImageLoader.initialize();
     }
 
     /**
@@ -81,19 +79,8 @@ public class AndroidNetworking {
         }
         InternalNetworking.setClient(okHttpClient);
         ANRequestQueue.initialize();
-        ANImageLoader.initialize();
     }
 
-    /**
-     * Method to set decodeOptions
-     *
-     * @param decodeOptions The decode config for Bitmaps
-     */
-    public static void setBitmapDecodeOptions(BitmapFactory.Options decodeOptions) {
-        if (decodeOptions != null) {
-            ANImageLoader.getInstance().setBitmapDecodeOptions(decodeOptions);
-        }
-    }
 
     /**
      * Method to set connectionQualityChangeListener
@@ -262,27 +249,6 @@ public class AndroidNetworking {
         InternalNetworking.enableLogging(level);
     }
 
-    /**
-     * Method to evict a bitmap with given key from LruCache
-     *
-     * @param key The key of the bitmap
-     */
-    public static void evictBitmap(String key) {
-        final ANImageLoader.ImageCache imageCache = ANImageLoader.getInstance().getImageCache();
-        if (imageCache != null && key != null) {
-            imageCache.evictBitmap(key);
-        }
-    }
-
-    /**
-     * Method to clear LruCache
-     */
-    public static void evictAllBitmap() {
-        final ANImageLoader.ImageCache imageCache = ANImageLoader.getInstance().getImageCache();
-        if (imageCache != null) {
-            imageCache.evictAllBitmap();
-        }
-    }
 
     /**
      * Method to set userAgent globally
@@ -335,7 +301,6 @@ public class AndroidNetworking {
      */
     public static void shutDown() {
         Core.shutDown();
-        evictAllBitmap();
         ConnectionClassManager.getInstance().removeListener();
         ConnectionClassManager.shutDown();
         ParseUtil.shutDown();

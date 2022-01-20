@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import com.androidnetworking.core.Core;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.AnalyticsListener;
-import com.androidnetworking.interfaces.BitmapRequestListener;
 import com.androidnetworking.interfaces.DownloadListener;
 import com.androidnetworking.interfaces.DownloadProgressListener;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
@@ -119,7 +118,6 @@ public class ANRequest<T extends ANRequest> {
     private JSONObjectRequestListener mJSONObjectRequestListener;
     private StringRequestListener mStringRequestListener;
     private OkHttpResponseListener mOkHttpResponseListener;
-    private BitmapRequestListener mBitmapRequestListener;
     private ParsedRequestListener mParsedRequestListener;
     private OkHttpResponseAndJSONObjectRequestListener mOkHttpResponseAndJSONObjectRequestListener;
     private OkHttpResponseAndJSONArrayRequestListener mOkHttpResponseAndJSONArrayRequestListener;
@@ -247,11 +245,6 @@ public class ANRequest<T extends ANRequest> {
         ANRequestQueue.getInstance().addRequest(this);
     }
 
-    public void getAsBitmap(BitmapRequestListener requestListener) {
-        this.mResponseType = ResponseType.BITMAP;
-        this.mBitmapRequestListener = requestListener;
-        ANRequestQueue.getInstance().addRequest(this);
-    }
 
     public void getAsParsed(TypeToken typeToken, ParsedRequestListener parsedRequestListener) {
         this.mType = typeToken.getType();
@@ -599,7 +592,6 @@ public class ANRequest<T extends ANRequest> {
         mJSONArrayRequestListener = null;
         mJSONObjectRequestListener = null;
         mStringRequestListener = null;
-        mBitmapRequestListener = null;
         mParsedRequestListener = null;
         mDownloadProgressListener = null;
         mUploadProgressListener = null;
@@ -729,9 +721,7 @@ public class ANRequest<T extends ANRequest> {
             mJSONArrayRequestListener.onResponse((JSONArray) response.getResult());
         } else if (mStringRequestListener != null) {
             mStringRequestListener.onResponse((String) response.getResult());
-        } else if (mBitmapRequestListener != null) {
-            mBitmapRequestListener.onResponse((Bitmap) response.getResult());
-        } else if (mParsedRequestListener != null) {
+        }  else if (mParsedRequestListener != null) {
             mParsedRequestListener.onResponse(response.getResult());
         } else if (mOkHttpResponseAndJSONObjectRequestListener != null) {
             mOkHttpResponseAndJSONObjectRequestListener.onResponse(response.getOkHttpResponse(), (JSONObject) response.getResult());
@@ -754,8 +744,6 @@ public class ANRequest<T extends ANRequest> {
             mJSONArrayRequestListener.onError(anError);
         } else if (mStringRequestListener != null) {
             mStringRequestListener.onError(anError);
-        } else if (mBitmapRequestListener != null) {
-            mBitmapRequestListener.onError(anError);
         } else if (mParsedRequestListener != null) {
             mParsedRequestListener.onError(anError);
         } else if (mOkHttpResponseListener != null) {
